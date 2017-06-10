@@ -1,5 +1,6 @@
 package com.jboc.server;
 
+import com.jboc.server.mysql.mapper.UserMapper;
 import com.jboc.server.storage.StorageProperties;
 import com.jboc.server.storage.StorageService;
 import org.springframework.boot.CommandLineRunner;
@@ -23,4 +24,7 @@ public class Application {
             storageService.init();
         };
     }
+
+
+
 }

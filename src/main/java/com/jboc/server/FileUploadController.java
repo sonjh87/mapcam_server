@@ -1,7 +1,10 @@
 package com.jboc.server;
 
+import com.jboc.server.mysql.UserVO;
+import com.jboc.server.mysql.mapper.UserMapper;
 import com.jboc.server.storage.StorageFileNotFoundException;
 import com.jboc.server.storage.StorageService;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+@MapperScan(value={"com.jboc.server.mysql.mapper"})
+
 @Controller
 public class FileUploadController {
 
@@ -27,8 +32,9 @@ public class FileUploadController {
     }
 
     @GetMapping("/")
-    public String listUploadedFiles(Model model) throws IOException {
+    public String listUploadedFiles(Model model) throws Exception {
 
+        UserVO userVO = userMapper.userSelect("ASDF");
         model.addAttribute("files", storageService
                 .loadAll()
                 .map(path ->
@@ -51,9 +57,12 @@ public class FileUploadController {
                 .body(file);
     }
 
+    @Autowired
+    private UserMapper userMapper;
+
     @PostMapping("/")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
+                                   RedirectAttributes redirectAttributes) throws Exception {
 
         storageService.store(file);
         redirectAttributes.addFlashAttribute("message",
