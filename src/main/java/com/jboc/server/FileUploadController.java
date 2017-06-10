@@ -1,6 +1,6 @@
 package com.jboc.server;
 
-import com.jboc.server.mysql.UserVO;
+import com.jboc.server.mysql.vo.UserVO;
 import com.jboc.server.mysql.mapper.UserMapper;
 import com.jboc.server.storage.StorageFileNotFoundException;
 import com.jboc.server.storage.StorageService;
@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
 import java.util.stream.Collectors;
 
 @MapperScan(value={"com.jboc.server.mysql.mapper"})
@@ -35,6 +34,11 @@ public class FileUploadController {
     public String listUploadedFiles(Model model) throws Exception {
 
         UserVO userVO = userMapper.userSelect("ASDF");
+        UserVO user = new UserVO();
+        user.setID("asss");
+        user.setPASSWORD("dddf");
+        userMapper.userInsert((user));
+
         model.addAttribute("files", storageService
                 .loadAll()
                 .map(path ->

@@ -1,4 +1,4 @@
-package com.jboc.server.mysql;
+package com.jboc.server.mysql.vo;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
